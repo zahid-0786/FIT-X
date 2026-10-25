@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIT-X | Better Food, Bigger Goals</title>
+  <!-- Google Fonts & Font Awesome for icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" onclick="navigateTo('home')">
+        <i class="fa-solid fa-dumbbell brand-icon"></i>
+        <span>FIT-X</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#home" class="nav-link active" data-page="home">Home</a>
+        <a href="#calculator" class="nav-link" data-page="calculator">Calculator</a>
+        <a href="#about" class="nav-link" data-page="about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-primary" onclick="startCalculator('gain')">Get Started</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Home / Landing Section -->
+    <section id="home-page" class="page-section active">
+      <!-- Hero Banner -->
+      <div class="hero-container">
+        <div class="hero-text">
+          <h1 class="hero-title">
+            Better Food<br>
+            <span class="text-green">Bigger Goals</span>
+          </h1>
+          <p class="hero-subtitle">
+            Calculate your daily calorie needs and take the right step towards your fitness journey.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn btn-emerald" onclick="navigateTo('calculator')">Calculate Calories</button>
+            <button class="btn btn-outline" onclick="navigateTo('about')">Learn More</button>
+          </div>
+        </div>
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80" alt="Fitness Physique" class="hero-img">
+        </div>
+      </div>
+
+      <!-- Action Choice Cards -->
+      <div class="choice-container">
+        <h2 class="choice-heading">What Do You Want To Do?</h2>
+        <p class="choice-subtext">Choose your goal and get a personalized calorie plan.</p>
+        
+        <div class="cards-grid">
+          <!-- Gain Weight Card -->
+          <div class="goal-card" onclick="startCalculator('gain')">
+            <div class="goal-icon-box bg-light-green">
+              <i class="fa-solid fa-hand-fist text-green"></i>
+            </div>
+            <div class="goal-info">
+              <h3>Gain Weight</h3>
+              <p>Build muscle, gain healthy weight and get stronger.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow-icon text-green"></i>
+          </div>
+
+          <!-- Lose Weight Card -->
+          <div class="goal-card" onclick="startCalculator('lose')">
+            <div class="goal-icon-box bg-light-blue">
+              <i class="fa-solid fa-fire-flame-curved text-blue"></i>
+            </div>
+            <div class="goal-info">
+              <h3>Lose Weight</h3>
+              <p>Burn calories, reduce fat and become healthier.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow-icon text-blue"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 & 3. Calorie Calculator Section -->
+    <section id="calculator-page" class="page-section">
+      <div class="calculator-container" id="calc-container-box">
+        
+        <!-- Goal Switcher Tab -->
+        <div class="calc-tabs">
+          <button class="tab-btn active" id="tab-gain" onclick="switchMode('gain')">
+            <i class="fa-solid fa-dumbbell"></i> Gain Weight
+          </button>
+          <button class="tab-btn" id="tab-lose" onclick="switchMode('lose')">
+            <i class="fa-solid fa-fire"></i> Lose Weight
+          </button>
+        </div>
+
+        <div class="calc-header">
+          <div class="calc-icon-badge" id="calc-badge">
+            <i class="fa-solid fa-dumbbell"></i>
+          </div>
+          <div>
+            <h2 class="calc-title">Calorie Calculator</h2>
+            <p class="calc-mode-label" id="calc-mode-label">Gain Weight</p>
+          </div>
+        </div>
+
+        <!-- Inputs Form -->
+        <form id="calc-form" onsubmit="event.preventDefault(); calculateCalories();">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="age">Age (years)</label>
+              <input type="number" id="age" value="25" min="10" max="100" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="height">Height (cm)</label>
+              <input type="number" id="height" value="175" min="50" max="250" required>
+            </div>
+            <div class="form-group">
+              <label for="weight">Weight (kg)</label>
+              <input type="number" id="weight" value="65" min="20" max="250" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="activity">Activity Level</label>
+            <select id="activity" required>
+              <option value="1.2">Sedentary (little or no exercise)</option>
+              <option value="1.375">Lightly Active (exercise 1-3 days/week)</option>
+              <option value="1.55" selected>Moderately Active (3-5 days/week)</option>
+              <option value="1.725">Very Active (hard exercise 6-7 days/week)</option>
+              <option value="1.9">Extra Active (very intense daily exercise)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-submit" id="btn-calculate">Calculate</button>
+        </form>
+
+        <!-- Calculation Result Details -->
+        <div class="calc-results-panel" id="results-panel">
+          <div class="maintenance-box">
+            <div class="maintenance-icon" id="maint-icon"><i class="fa-solid fa-fire"></i></div>
+            <div>
+              <p class="maint-label">Your Maintenance Calories</p>
+              <p class="maint-value"><span id="maint-val">2,352</span> kcal/day</p>
+            </div>
+          </div>
+
+          <div class="target-row">
+            <div class="target-badge-box">
+              <p class="target-sub" id="target-mode-tag">To Gain Weight</p>
+              <p class="target-delta" id="target-delta-tag">+500 kcal</p>
+              <p class="target-caption" id="target-note">(Recommended Surplus)</p>
+            </div>
+            <div class="target-badge-box right-align">
+              <p class="target-sub">Target Calories</p>
+              <p class="target-total" id="target-calories-val">2,852 <span class="unit">kcal/day</span></p>
+            </div>
+          </div>
+
+          <div class="suggestions-card">
+            <h4><i class="fa-solid fa-basket-shopping"></i> Food Suggestions</h4>
+            <ul id="food-suggestions-list">
+              <!-- Rendered via JS -->
+            </ul>
+            <button class="btn btn-outline-full" onclick="showDietPlanModal()">View Detailed Plan</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. Result / Diet Plan Modal Page -->
+    <div class="modal-overlay" id="diet-modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeDietModal()">&times;</button>
+        
+        <div class="diet-header">
+          <div class="diet-status-circle">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <h2 class="diet-title" id="diet-plan-title">Your Daily Plan (Gain Weight)</h2>
+            <p class="diet-subtitle">Target Calories: <strong id="diet-calories-sum">2,852 kcal/day</strong></p>
+          </div>
+        </div>
+
+        <!-- Macros Breakdown -->
+        <div class="macros-grid">
+          <div class="macro-card">
+            <span class="macro-title">Protein</span>
+            <span class="macro-qty" id="macro-protein">140g</span>
+            <span class="macro-pct" id="macro-protein-pct">(20%)</span>
+          </div>
+          <div class="macro-card">
+            <span class="macro-title">Carbs</span>
+            <span class="macro-qty" id="macro-carbs">400g</span>
+            <span class="macro-pct" id="macro-carbs-pct">(56%)</span>
+          </div>
+          <div class="macro-card">
+            <span class="macro-title">Fats</span>
+            <span class="macro-qty" id="macro-fats">90g</span>
+            <span class="macro-pct" id="macro-fats-pct">(24%)</span>
+          </div>
+        </div>
+
+        <h3 class="section-subheading"><i class="fa-solid fa-bowl-food"></i> Meal Plan</h3>
+
+        <!-- Interactive Collapsible Meals List -->
+        <div class="meal-list" id="meal-list-container">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <div class="diet-note">
+          <i class="fa-regular fa-lightbulb"></i>
+          <div>
+            <strong>Note:</strong> This is a recommended balanced plan. Adjust portions according to your preference, food availability, and body response.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5. About Page -->
+    <section id="about-page" class="page-section">
+      <div class="about-container">
+        
+        <div class="about-banner">
+          <div class="about-banner-icon">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+          <h2>About FIT-X</h2>
+          <p class="about-tagline">Your personal fitness & nutrition companion</p>
+          <p class="about-desc">
+            We believe in a healthier you. Our mission is to help you achieve your fitness goals with simple tools, accurate scientific calculations, and easy-to-follow daily nutrition guidance.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon bg-light-green text-green"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h4>Healthy Living</h4>
+            <p>Better daily habits, better overall life and vitality.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon bg-light-green text-green"><i class="fa-solid fa-chart-line"></i></div>
+            <h4>Track Progress</h4>
+            <p>Stay consistent with calculative macro guidance.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon bg-light-green text-green"><i class="fa-solid fa-clipboard-user"></i></div>
+            <h4>Personalized Plans</h4>
+            <p>Made custom for your body metrics and daily schedule.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon bg-light-green text-green"><i class="fa-solid fa-droplet"></i></div>
+            <h4>Simple & Easy</h4>
+            <p>No confusion, accurate algorithms and reliable results.</p>
+          </div>
+        </div>
+
+        <div class="motivation-banner">
+          <i class="fa-solid fa-person-running motivation-icon"></i>
+          <div>
+            <p class="motivation-quote">"Small steps every day lead to big results!"</p>
+            <p class="motivation-sub">Consistency over perfection.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <i class="fa-solid fa-dumbbell"></i>
+        <span>FIT-X</span>
+        <span class="divider">|</span>
+        <span class="motto">Build a healthier tomorrow</span>
+      </div>
+      <div class="footer-tag">
+        <span>Good food</span> + <span>Consistency</span> = <strong>Results 💪</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
